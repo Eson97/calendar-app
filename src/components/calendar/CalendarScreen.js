@@ -67,6 +67,25 @@ export const CalendarScreen = () => {
         }
     }
 
+    const dayStyleGetter = (date) => { //intercala los colores por dia solo del mes actual
+        const today = moment();
+        const _date = moment(date);
+        const lastMonth = moment(today.add(-1, 'month').toDate());
+        const nextMonth = moment(today.add(2, 'month').toDate());
+
+        const style = {
+            backgroundColor: (
+                _date.dayOfYear() % 2 === 0 &&
+                _date.month() > lastMonth.month() &&
+                _date.month() < nextMonth.month()
+            ) && '#7c9ccc'
+        }
+
+        return {
+            style
+        }
+    }
+
 
     return (
         <div className=".calendar-screen">
@@ -79,6 +98,7 @@ export const CalendarScreen = () => {
                     endAccessor="end"
                     messages={messages}
                     eventPropGetter={eventStyleGetter}
+                    dayPropGetter={dayStyleGetter}
                     onDoubleClickEvent={onDoubleCick}
                     onSelectEvent={onSelect}
                     onSelectSlot={onSelectSlot}
